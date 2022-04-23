@@ -1,0 +1,24 @@
+{
+  "name": "kindle-highlights",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "rm -rf build/ && prettier --write src/ && tsc",
+    "start": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alvadda/kindle-highlights.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alvadda/kindle-highlights/issues"
+  },
+  "homepage": "https://github.com/Alvadda/kindle-highlights#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.25"
+  }
+}
