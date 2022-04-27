@@ -1,15 +1,10 @@
 import fs from 'fs'
 import path from 'path'
+import { HighlightInfo } from './types'
 
 const HIGHLIGHTS_PATH = path.join(__dirname, '../resources/highlights.txt')
 const PAGE_NUMBER_REG = /(page )([0-9]+)/g
 const HIGHLIGHT_SEPARATOR = '=========='
-
-interface HighlightInfo {
-  book: string
-  page: number
-  highlight: string
-}
 
 const parseHighlightInfo = (highlightInfo: string): HighlightInfo => {
   const cleanParts = highlightInfo.replaceAll('\r', '')
