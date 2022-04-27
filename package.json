@@ -19,6 +19,12 @@
   },
   "homepage": "https://github.com/Alvadda/kindle-highlights#readme",
   "devDependencies": {
-    "@types/node": "^17.0.25"
+    "@types/node": "^17.0.25",
+    "@types/object-hash": "^2.2.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.13.0",
+    "object-hash": "^3.0.0",
+    "prisma": "^3.13.0"
   }
 }
