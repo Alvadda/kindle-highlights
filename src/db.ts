@@ -1,23 +1,19 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { HighlightInfo } from './types'
+import { Highlight } from './types'
 
 const prisma = new PrismaClient()
 
 const createBook = async (title: string) => {
   try {
-    const book = await prisma.book.findUnique({ where: { title } })
-
+    const book = await prisma.book.findFirst({ where: { title } })
     if (book) return book
 
-    prisma.book.create({ data: { title } })
-    const newBook = await prisma.book.findUnique({ where: { title } })
-
-    if (newBook) return newBook
-
-    throw new Error('No user found after creation')
+    console.log(book, 'after')
+    const newBook = await prisma.book.create({ data: { title } })
+    return newBook
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw new Error(`Error creating user: ${error.message}`)
+      throw new Error(`Error creating book: ${error.message}`)
     }
     throw error
   }
@@ -26,18 +22,21 @@ const createBook = async (title: string) => {
 export const getHighlights = async () => {
   return await prisma.highlight.findMany()
 }
+export const getBooks = async () => {
+  return await prisma.book.findMany()
+}
 
-export const saveHighlightsToBook = async (highlightInfos: HighlightInfo[], bookTitle: string) => {
+export const saveHighlightsToBook = async (highlight: Highlight[], bookTitle: string) => {
   const book = await createBook(bookTitle)
 
-  for (const key in highlightInfos) {
-    if (Object.prototype.hasOwnProperty.call(highlightInfos, key)) {
-      const highlightInfo = highlightInfos[key]
+  for (const key in highlight) {
+    if (Object.prototype.hasOwnProperty.call(highlight, key)) {
+      const highlightObj = highlight[key]
 
       await prisma.highlight.create({
         data: {
-          page: highlightInfo.page,
-          text: highlightInfo.highlight,
+          page: highlightObj.page,
+          text: highlightObj.highlight,
           bookId: book.id,
         },
       })

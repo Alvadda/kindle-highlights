@@ -16,7 +16,7 @@ model Highlight {
   page          Int?      
   text          String      
   book          Book      @relation(fields: [bookId], references: [id])
-  bookId        Int       @unique
+  bookId        Int       
 }
 
 model Book {
