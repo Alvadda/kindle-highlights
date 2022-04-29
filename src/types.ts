@@ -3,13 +3,11 @@ export interface Highlight {
   highlight: string
 }
 
-export interface HighlightToBook {
+export interface HighlightsToBook {
   bookTitle: string
   highlights: Highlight[]
 }
 
-export interface HighlightInfo {
+export interface HighlightInfo extends Highlight {
   book: string
-  page: number
-  highlight: string
 }
