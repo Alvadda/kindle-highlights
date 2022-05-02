@@ -1,22 +1,20 @@
-import hash from 'object-hash'
 import { parseHighlightInfos } from './highlightParser'
-import { getBooks, getHighlights, saveHighlightsToBook } from './db'
-
-// hash(parseHighlightInfos()[0])
-
-const parsedHighlights = parseHighlightInfos()
-// console.log(parsedHighlights[1])
+import { getBooks, getHighlights, getHighlightsHashs, saveHighlightsToBook } from './db'
+import { enrichHash, filterExistingHighlights } from './comparer'
 
 main()
 
 async function main() {
-  for (let i = 0; i < parsedHighlights.length; i++) {
-    const item = parsedHighlights[i]
-    await saveHighlightsToBook(item.highlights, item.bookTitle)
-  }
+  const highlightsHashs = await getHighlightsHashs()
+  const parsedHighlights = parseHighlightInfos()
 
-  const highlights = await getHighlights()
-  const books = await getBooks()
-  console.log(books)
-  console.log(highlights)
+  for (let i = 0; i < parsedHighlights.length; i++) {
+    const { bookTitle, highlights } = parsedHighlights[i]
+    const newHighlights = filterExistingHighlights(highlights, highlightsHashs)
+
+    if (newHighlights && newHighlights.length > 0) {
+      console.log(`Add ${newHighlights.length} new Highlights for book ${bookTitle} to DB`)
+      await saveHighlightsToBook(newHighlights, bookTitle)
+    }
+  }
 }

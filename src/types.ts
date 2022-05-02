@@ -1,6 +1,7 @@
 export interface Highlight {
   page: number
   highlight: string
+  hash?: string
 }
 
 export interface HighlightsToBook {

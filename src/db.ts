@@ -8,7 +8,6 @@ const createBook = async (title: string) => {
     const book = await prisma.book.findFirst({ where: { title } })
     if (book) return book
 
-    console.log(book, 'after')
     const newBook = await prisma.book.create({ data: { title } })
     return newBook
   } catch (error) {
@@ -21,6 +20,10 @@ const createBook = async (title: string) => {
 
 export const getHighlights = async () => {
   return await prisma.highlight.findMany()
+}
+
+export const getHighlightsHashs = async () => {
+  return await (await prisma.highlight.findMany({ select: { hash: true } })).map((h) => h.hash)
 }
 export const getBooks = async () => {
   return await prisma.book.findMany()
@@ -38,6 +41,7 @@ export const saveHighlightsToBook = async (highlight: Highlight[], bookTitle: st
           page: highlightObj.page,
           text: highlightObj.highlight,
           bookId: book.id,
+          hash: highlightObj.hash,
         },
       })
     }
