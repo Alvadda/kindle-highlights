@@ -15,6 +15,7 @@ model Highlight {
   id            Int       @id @default(autoincrement())
   page          Int?      
   text          String      
+  hash          String?   
   book          Book      @relation(fields: [bookId], references: [id])
   bookId        Int       
 }
