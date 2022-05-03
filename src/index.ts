@@ -1,10 +1,11 @@
 import { parseHighlightInfos } from './highlightParser'
-import { getBooks, getHighlights, getHighlightsHashs, saveHighlightsToBook } from './db'
-import { enrichHash, filterExistingHighlights } from './comparer'
+import { getHighlightsHashs, saveHighlightsToBook, getRndHighlights } from './db'
+import { filterExistingHighlights } from './comparer'
 
 main()
 
 async function main() {
+  console.log('...started')
   const highlightsHashs = await getHighlightsHashs()
   const parsedHighlights = parseHighlightInfos()
 
@@ -17,4 +18,6 @@ async function main() {
       await saveHighlightsToBook(newHighlights, bookTitle)
     }
   }
+
+  console.log('...finished')
 }

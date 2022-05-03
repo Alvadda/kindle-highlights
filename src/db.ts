@@ -22,6 +22,11 @@ export const getHighlights = async () => {
   return await prisma.highlight.findMany()
 }
 
+export const getRndHighlights = async (numberOfHighlights = 5) => {
+  const highlights = await getHighlights()
+  return highlights.sort(() => Math.random() - Math.random()).slice(0, numberOfHighlights)
+}
+
 export const getHighlightsHashs = async () => {
   return await (await prisma.highlight.findMany({ select: { hash: true } })).map((h) => h.hash)
 }
