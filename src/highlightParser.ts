@@ -3,7 +3,7 @@ import path from 'path'
 import { HighlightInfo, HighlightsToBook } from './types'
 
 const HIGHLIGHTS_PATH = path.join(__dirname, '../resources/highlights.txt')
-const PAGE_NUMBER_REG = /(page )([0-9]+)/g
+const PAGE_NUMBER_REG = /(?<=(page\s))([0-9]+)/g
 const HIGHLIGHT_SEPARATOR = '=========='
 
 const parseHighlightInfo = (highlightInfo: string): HighlightInfo => {
@@ -15,7 +15,7 @@ const parseHighlightInfo = (highlightInfo: string): HighlightInfo => {
 
   const found = parts[2]?.match(PAGE_NUMBER_REG)
   if (found && found.length > 0) {
-    page = Number(found[0].replace('page ', ''))
+    page = Number(found[0])
   }
 
   return {
